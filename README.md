@@ -1,6 +1,8 @@
 # Apollo Phone Webhook
 
-Minimal Railway service that receives **Apollo.io async phone reveal** callbacks and stores them for the Lead-generation agent repo.
+Minimal Railway service that receives **Apollo.io async phone reveal** callbacks and stores them for the Lead-generation agent.
+
+Repo: https://github.com/rabino888/apollo-phone-webhook
 
 Apollo charges credits when you call `people/match` with `reveal_phone_number=true`, then POSTs the phone numbers to your webhook URL a few seconds later. This service replaces fragile free [webhook.site](https://webhook.site) inboxes (50-request cap).
 
