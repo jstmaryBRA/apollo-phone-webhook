@@ -60,7 +60,6 @@ async def get_result(request_id: str):
     }
 
 
-
 @app.get("/health")
 async def health():
     return {"status": "ok", "timestamp": datetime.now(UTC).isoformat()}
@@ -80,6 +79,7 @@ async def apollo_phone_webhook(secret: str, request: Request):
         raise HTTPException(status_code=400, detail="Expected JSON object")
 
     store_payload(payload)
+    log.info("RAW PAYLOAD: %s", payload)
     people = payload.get("people")
     person_count = len(people) if isinstance(people, list) else 0
     log.info("Webhook received — people=%d status=%s", person_count, payload.get("status"))
