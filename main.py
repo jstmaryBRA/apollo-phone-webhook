@@ -16,7 +16,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Request
 
 from storage import (
     extract_phone_numbers,
-    find_result_by_request_id,
+    find_result_by_person_id,
     load_payloads,
     payload_stats,
     resolve_webhook_url,
@@ -47,15 +47,15 @@ def _check_admin(x_admin_secret: str | None = Header(None, alias="X-Admin-Secret
         raise HTTPException(status_code=401, detail="Invalid admin secret")
 
 
-@app.get("/result/{request_id}")
-async def get_result(request_id: str):
-    payload = find_result_by_request_id(request_id)
+@app.get("/result/{person_id}")
+async def get_result(person_id: str):
+    payload = find_result_by_person_id(person_id)
     if payload is None:
-        return {"status": "pending", "request_id": request_id, "phone_numbers": []}
+        return {"status": "pending", "person_id": person_id, "phone_numbers": []}
     phone_numbers = extract_phone_numbers(payload)
     return {
         "status": "completed",
-        "request_id": request_id,
+        "person_id": person_id,
         "phone_numbers": phone_numbers,
     }
 
