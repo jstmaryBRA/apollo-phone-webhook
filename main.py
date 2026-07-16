@@ -15,6 +15,8 @@ from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 
 from storage import (
+    extract_phone_numbers,
+    find_result_by_request_id,
     load_payloads,
     payload_stats,
     resolve_webhook_url,
