@@ -90,21 +90,18 @@ def payload_stats() -> dict[str, Any]:
         "webhook_url": resolve_webhook_url(),
     }
 
-def find_result_by_request_id(request_id: str) -> dict | None:
-    """Return the stored Apollo payload matching a given request_id, or None."""
-    target = str(request_id).strip()
+
+def find_result_by_person_id(person_id: str) -> dict | None:
+    """Return the stored Apollo webhook payload containing a given person id."""
+    target = str(person_id).strip()
     if not target:
         return None
     for payload in load_payloads():
-        pe = payload.get("phone_enrichment")
-        candidates = [
-            payload.get("request_id"),
-            payload.get("id"),
-            pe.get("request_id") if isinstance(pe, dict) else None,
-        ]
-        candidates = [str(c).strip() for c in candidates if c is not None]
-        if target in candidates:
-            return payload
+        people = payload.get("people")
+        if isinstance(people, list):
+            for person in people:
+                if isinstance(person, dict) and str(person.get("id")).strip() == target:
+                    return payload
     return None
 
 
